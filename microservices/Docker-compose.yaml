@@ -1,0 +1,27 @@
+version: '3.3'  # version of compose format
+
+services:
+  steve-service:
+    build: ./steve  # path is relative to docker-compose.yml location
+    hostname: steve-service
+    ports:
+      - 5050:5050  # host:container
+    networks:
+      sample:
+        aliases:
+          - steve-service
+
+  mary-service:
+    build: ./mary
+    hostname: mary-service
+    ports:
+      - 5051:5051  # host:container
+    depends_on:
+      - steve-service                             
+    networks:
+      sample:
+        aliases:
+          - mary-service
+
+networks:
+  sample:
